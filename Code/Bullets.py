@@ -1,5 +1,6 @@
 import pygame
 
+""" Lớp viên đạn """ 
 class Bullet:
     def __init__(self, image, x, y):
         self.image = pygame.image.load(image)
