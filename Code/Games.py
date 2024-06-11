@@ -38,7 +38,7 @@ class Game:
         self.bang = pygame.image.load(GRAPHICS_FOLDER +'bang.png') # Tải hình ảnh nổ
         self.hit_position = None # Thiết lập vị trí va chạm
         self.hit_timer = 0 # Thiết lập bộ đếm thời gian va chạm
-        self.score_limit = 20 # Giới hạn điểm để chiến thắng
+        self.score_limit = 1# Giới hạn điểm để chiến thắng
         self.winner = None # Người chiến thắng
         self.font_winner = pygame.font.Font(FONT_FOLDER + 'wheaton capitals.ttf', 100)  # Tải font chữ cho người chiến thắng
         self.button_sound = pygame.mixer.Sound(SOUND_FOLDER +'button.mp3') # Tải âm thanh nút
@@ -101,7 +101,7 @@ class Game:
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     if self.back_button.collidepoint(mouse_pos):
-                        self.running = False # Thoát trò chơi khi nhấn nút quay lại
+                        self.running = False
                         pygame.mixer.music.stop()  
                         menu = Menu()
                         menu.show_menu() # Hiển thị menu chính
@@ -160,10 +160,11 @@ class Game:
         # Thiết lập trạng thái chiến thắng cho người chơi
         if self.score_player1 >= self.score_limit:
             self.winner = "Player 1"
-            self.show_winner()
             self.running = False
+            self.show_winner()
         elif self.score_player2 >= self.score_limit:
             self.winner = "Player 2"
+            self.running = False 
             self.show_winner()
             self.running = False
 
@@ -188,17 +189,17 @@ class Game:
                         # Nhấn button Back to menu để về Menu
                         if back_to_menu_button.collidepoint(mouse_pos):
                             self.button_sound.play()
+                            self.winner_sound.stop()
                             winner_running = False
                             self.running = False
-                            self.winner_sound.stop()
                             menu = Menu()
                             menu.show_menu()
                         # Nhấn button Play again để chơi lại và được chọn tank
                         elif play_again_button.collidepoint(mouse_pos):
                             self.button_sound.play()
+                            self.winner_sound.stop()
                             winner_running = False
                             self.running = False
-                            self.winner_sound.stop()
                             tank_select = TankSelect()
                             selected_tanks = tank_select.show()
                             if selected_tanks and None not in selected_tanks:
@@ -210,12 +211,12 @@ class Game:
             self.screen.blit(winner_text, (400 - winner_text.get_width() // 2, 150 - winner_text.get_height() // 2))
             pygame.draw.rect(self.screen, (255, 0, 0), back_to_menu_button, border_radius=8)
             pygame.draw.rect(self.screen, (0, 255, 0), play_again_button, border_radius=8)
-            back_text = self.back_font.render("Back to Menu", True, (255, 255, 255))
-            play_again_text = self.back_font.render("Play Again", True, (255, 255, 255))
-            self.screen.blit(back_text, (back_to_menu_button.x + 10, back_to_menu_button.y + 7))
-            self.screen.blit(play_again_text, (play_again_button.x + 25, play_again_button.y + 5))
+            back_text = self.font.render("Back to Menu", True, (255, 255, 255))
+            play_again_text = self.font.render("Play Again", True, (255, 255, 255))
+            self.screen.blit(back_text, (back_to_menu_button.x + 20, back_to_menu_button.y + 7))
+            self.screen.blit(play_again_text, (play_again_button.x + 33, play_again_button.y + 7))
             pygame.display.flip()
-            self.clock.tick(120)
+            self.clock.tick(240)
 
         
     def draw(self): # Hàm draw, thiết lập các hoạt động như bắn, trở về, và tăng số điểm nếu người chơi bắn trúng tank địch
@@ -243,8 +244,8 @@ class Game:
             self.handle_events()
             self.update()
             self.draw()
-            self.clock.tick(120)
-        pygame.quit()
+            self.clock.tick(240)
+        self.running = False
 
 class Menu:
     def __init__(self):
@@ -290,7 +291,7 @@ class Menu:
             self.draw_button(self.credit_button, 'Author', (255, 255, 255), (0, 0, 128), (0, 0, 255)) 
             self.draw_button(self.control_button, 'Control', (255, 255, 255), (255, 140, 0), (255, 255, 0))      
             pygame.display.update()
-            self.clock.tick(120)
+            self.clock.tick(240)
 
     def draw_button(self, rect, text, text_color, normal_color, hover_color):
         """
@@ -359,7 +360,7 @@ class Menu:
             back_text = self.font.render("Back", True, (255, 255, 255))
             self.screen.blit(back_text, (back_button.x + 10, back_button.y + 2))
             pygame.display.flip()
-            self.clock.tick(120)
+            self.clock.tick(240)
 
     def show_controls(self): # Thiết lập hàm hiển thị cửa sổ hướng dẫn chơi game 
         control_running = True
@@ -412,4 +413,4 @@ class Menu:
             back_text = self.font.render("Back", True, (255, 255, 255))
             self.screen.blit(back_text, (back_button.x + 10, back_button.y + 2))
             pygame.display.flip()
-            self.clock.tick(120)
+            self.clock.tick(240)

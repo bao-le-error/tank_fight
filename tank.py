@@ -53,7 +53,7 @@ class Game:
         self.bang = pygame.image.load(GRAPHICS_FOLDER +'bang.png') 
         self.hit_position = None
         self.hit_timer = 0
-        self.score_limit = 20
+        self.score_limit = 1
         self.winner = None
         self.font_winner = pygame.font.Font(FONT_FOLDER + 'wheaton capitals.ttf', 100)
         self.button_sound = pygame.mixer.Sound(SOUND_FOLDER +'button.mp3')
@@ -248,7 +248,7 @@ class Game:
             self.update()
             self.draw()
             self.clock.tick(60)
-        pygame.quit()
+        self.running = False
         
 class TankSelect:
     def __init__(self):
