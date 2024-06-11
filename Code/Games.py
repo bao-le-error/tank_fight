@@ -38,7 +38,7 @@ class Game:
         self.bang = pygame.image.load(GRAPHICS_FOLDER +'bang.png') # Tải hình ảnh nổ
         self.hit_position = None # Thiết lập vị trí va chạm
         self.hit_timer = 0 # Thiết lập bộ đếm thời gian va chạm
-        self.score_limit = 1# Giới hạn điểm để chiến thắng
+        self.score_limit = 20# Giới hạn điểm để chiến thắng
         self.winner = None # Người chiến thắng
         self.font_winner = pygame.font.Font(FONT_FOLDER + 'wheaton capitals.ttf', 100)  # Tải font chữ cho người chiến thắng
         self.button_sound = pygame.mixer.Sound(SOUND_FOLDER +'button.mp3') # Tải âm thanh nút
